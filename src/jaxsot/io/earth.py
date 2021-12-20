@@ -1,6 +1,6 @@
 import healpy as hp
 import numpy as np
-def bianrymap(nside=16,show=False):
+def binarymap(nside=16,show=False):
     """Load a binary map of Earth
 
     Args:
@@ -27,4 +27,5 @@ def bianrymap(nside=16,show=False):
     return mmap
 
 if __name__=="__main__":
-    bianrymap(nside=16,show=True)
+    mmap=binarymap(nside=16,show=True)
+    print(len(mmap[mmap==1.0]))
