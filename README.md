@@ -1,5 +1,5 @@
 # jaxsot
 
-JAX implementation of SOT package
+JAX implementation of [SOT](https://github.com/HajimeKawahara/sot) package
 
 - optimization using jaxopt
