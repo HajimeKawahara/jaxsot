@@ -1,0 +1,21 @@
+include src/jaxsot/data/cmap3class.npz
+include src/jaxsot/data/cmap4class.npz
+include src/jaxsot/data/mockalbedo16.fits
+include src/jaxsot/data/mockalbedo2.fits
+include src/jaxsot/data/mockalbedo32.fits
+include src/jaxsot/data/mockalbedo4.fits
+include src/jaxsot/data/mockalbedo64.fits
+include src/jaxsot/data/mockalbedo8.fits
+include src/jaxsot/data/mockland16.fits
+include src/jaxsot/data/mockland32.fits
+include src/jaxsot/data/mockland64.fits
+
+graft tests
+graft examples
+graft documents
+
+global-exclude *.py[co]
+
+prune documents/_build
+prune documents/_static
+prune documents/_templates
