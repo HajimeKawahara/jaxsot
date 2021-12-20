@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import healpy as hp
 import numpy as np
 import jax.numpy as jnp
@@ -19,7 +18,7 @@ def comp_omega(nside):
     for ipix in range(0, npix):
         theta, phi = hp.pix2ang(nside, ipix)
         omega.append([theta, phi])
-    return np.array(omega)
+    return jnp.array(omega)
 
 @jit
 def uniteO(inc, Thetaeq):
@@ -54,8 +53,7 @@ def uniteR(zeta, Phiv, omega):
     return eR
 
 @jit
-def comp_weight(nside,zeta,inc,Thetaeq,Thetav,Phiv):
-    omega=jnp.array(comp_omega(nside))
+def comp_weight(nside,zeta,inc,Thetaeq,Thetav,Phiv,omega):
     eO=uniteO(inc,Thetaeq)
     eS=uniteS(Thetaeq,Thetav)
     eR=uniteR(zeta,Phiv,omega)
@@ -65,3 +63,5 @@ def comp_weight(nside,zeta,inc,Thetaeq,Thetav,Phiv):
     WI=jnp.where(WI<0.0,0.0,WI)
     return WI,WV
 
+if __name__=="__main__":
+    print("-")
