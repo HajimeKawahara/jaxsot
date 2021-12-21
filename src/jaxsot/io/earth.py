@@ -1,5 +1,7 @@
 import healpy as hp
 import numpy as np
+import pkg_resources
+
 def binarymap(nside=16,show=False):
     """Load a binary map of Earth
 
@@ -13,8 +15,9 @@ def binarymap(nside=16,show=False):
 
     """
     # test map
-    mmap=(hp.read_map("../data/mockalbedo"+str(nside)+".fits"))
-
+    filename="data/mockalbedo"+str(nside)+".fits"
+    fitsfile=(pkg_resources.resource_filename('jaxsot', filename))
+    mmap=(hp.read_map(fitsfile))
     mask=(mmap>0.0)
     mmap[mask]=1.0
     mmap=np.asarray(mmap)
