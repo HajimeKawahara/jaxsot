@@ -10,6 +10,21 @@ include src/jaxsot/data/mockland16.fits
 include src/jaxsot/data/mockland32.fits
 include src/jaxsot/data/mockland64.fits
 
+include src/jaxsot/data/refdata/clear_sky.npz
+include src/jaxsot/data/refdata/clouds.txt
+include src/jaxsot/data/refdata/clouds_ice.txt
+include src/jaxsot/data/refdata/fine_snow.txt
+include src/jaxsot/data/refdata/granular_snow.txt
+include src/jaxsot/data/refdata/ice.txt
+include src/jaxsot/data/refdata/medium_snow.txt
+include src/jaxsot/data/refdata/ocean_McLinden.csv
+include src/jaxsot/data/refdata/ocean_McLinden2.csv
+include src/jaxsot/data/refdata/sea.txt
+include src/jaxsot/data/refdata/soil.txt
+include src/jaxsot/data/refdata/veg_deciduous.txt
+include src/jaxsot/data/refdata/water.txt
+
+
 graft tests
 graft examples
 graft documents
@@ -19,3 +34,19 @@ global-exclude *.py[co]
 prune documents/_build
 prune documents/_static
 prune documents/_templates
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
