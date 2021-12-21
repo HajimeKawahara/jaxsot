@@ -3,6 +3,9 @@ import jax.numpy as jnp
 from jaxsot.core.weight import comp_weight, comp_omega
 from jaxsot.core.lc import gen_lightcurve
 from jaxsot.io.earth import binarymap
+import jaxopt
+import healpy as hp
+import matplotlib.pyplot as plt
 
 nside=8
 mmap=binarymap(nside=nside,show=False)
@@ -26,11 +29,7 @@ def objective(params,lam):
     residuals=lc - jnp.dot(W,params)
     return jnp.mean(residuals ** 2) + lam*lam * jnp.dot(params,params)
 
-import jaxopt
-import healpy as hp
-import matplotlib.pyplot as plt
-
-gd = jaxopt.GradientDescent(fun=objective, maxiter=5000)
+gd = jaxopt.GradientDescent(fun=objective, maxiter=500)
 res = gd.run(init_params=np.random.normal(0.0,1.0,len(mmap)), lam=0.1)
 params, state = res
 hp.mollview(params)
