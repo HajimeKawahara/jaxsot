@@ -1,6 +1,9 @@
 import healpy as hp
 import numpy as np
 import pkg_resources
+from jaxsot.io.reflectivity import load_refdata
+
+default_band=bands=[[0.4,0.45],[0.45,0.5],[0.5,0.55],[0.55,0.6],[0.6,0.65],[0.65,0.7],[0.7,0.75],[0.75,0.8],[0.8,0.85],[0.85,0.9]]
 
 def binarymap(nside=16,show=False):
     """Load a binary map of Earth
@@ -40,11 +43,11 @@ def load_classification_map(nclass=3):
 
     """
     filename="data/cmap"+str(nclass)+"class.npz"
-    fitsfile=(pkg_resources.resource_filename('jaxsot', filename))
-    dataclass=np.load(fitsfile)
+    npzfile=(pkg_resources.resource_filename('jaxsot', filename))
+    dataclass=np.load(npzfile)
     return dataclass
 
-def multibandmap(show=False):
+def multibandmap(band=default_band,show=False):
     """Load a multiband map of Earth
 
     Args:
@@ -64,7 +67,19 @@ def multibandmap(show=False):
     nside=hp.npix2nside(npix)
     vals=dataclass["arr_1"]
     valexp=dataclass["arr_2"]
+    cloud, cloud_ice, snow_fine, snow_granular, snow_med, soil, veg, ice, water, clear_sky\
+    =load_refdata()
 
+    
+    refsurfaces=[water,soil,veg]
+    #malbedo=io_surface_type.set_meanalbedo(0.8,0.9,refsurfaces,clear_sky)
+    
+    #mmap,Ainit,Xinit=toymap.make_multiband_map(cmap,refsurfaces,clear_sky,vals,bands)
+    #ave_band=np.mean(np.array(bands),axis=1)
+    #io_surface_type.plot_albedo(veg,soil,cloud,snow_med,water,clear_sky,ave_band,Xinit,valexp)
+    
+
+    
     return 
 
 
