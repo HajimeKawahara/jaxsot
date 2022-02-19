@@ -31,10 +31,13 @@ def calc_neighbor_weightmatrix(nside):
     return Weight_tsv_matrix,Neighbor_matrix
 
 
+        
 if __name__=="__main__":
     import matplotlib.pyplot as plt
-    wtsv, nmat=calc_neighbor_weightmatrix(8)
+    nside=8
+
+    wtsv, nmat=calc_neighbor_weightmatrix(nside)
 #    hp.visufunc.mollview(nmat[120,:])
     hp.visufunc.mollview(wtsv[120,:])
-
     plt.show()
+
