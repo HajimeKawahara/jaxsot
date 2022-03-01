@@ -2,6 +2,7 @@ import numpy as np
 import jax.numpy as jnp
 from jaxsot.core.weight import comp_weight, comp_omega
 from jaxsot.core.lc import gen_lightcurve
+from jaxsot.core.neighbor import calc_neighbor_weightmatrix
 from jaxsot.io.earth import binarymap
 import jaxopt
 import healpy as hp
@@ -24,13 +25,16 @@ omega=comp_omega(nside)
 WI,WV=comp_weight(nside,zeta,inc,Thetaeq,Thetav,Phiv,omega)
 W=jnp.array(WI*WV)
 lc=gen_lightcurve(W,mmap,0.1)
+wtsv, _ = calc_neighbor_weightmatrix(nside)
 
-def objective(params,lam):
+def objective(params,lamtsv):
     residuals=lc - jnp.dot(W,params)
-    return jnp.mean(residuals ** 2) + lam * jnp.abs(lam) + 
+    regtsv = lamtsv * jnp.dot(params, jnp.dot(wtsv,params))
+    return jnp.mean(residuals ** 2) + regtsv
 
-gd = jaxopt.GradientDescent(fun=objective, maxiter=500)
-res = gd.run(init_params=np.random.normal(0.0,1.0,len(mmap)), lam=0.1)
+#pg = jaxopt.ProximalGradient(fun=objective, prox=jaxopt.prox.prox_lasso, maxiter=5000)
+pg = jaxopt.ProximalGradient(fun=objective, prox=jaxopt.prox.prox_non_negative_lasso, maxiter=5000)
+res = pg.run(init_params=np.random.normal(0.0,1.0,len(mmap)),  hyperparams_prox=0.01, lamtsv=0.01)
 params, state = res
 hp.mollview(params)
 plt.show()
