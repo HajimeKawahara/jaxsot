@@ -13,10 +13,9 @@ def binarymap(nside=16,show=False):
        nside: nside in Healpix
        show: if True, display a map 
 
-    returns:
+    Returns:
        binary map in healpix   
      
-
     """
     # test map
     filename="data/mockalbedo"+str(nside)+".fits"
@@ -52,10 +51,10 @@ def multibandmap(show=False):
     """Load a multiband map of Earth
 
     Args:
-       nside: nside in Healpix
+       show: if True, display a map
 
-    returns:
-       multiband map in healpix, map matrix, & reflectivity matrix 
+    Returns:
+       multiband map in healpix, multi-component map in healpix, multi-component reflectivity
 
     """
     nclass=3

@@ -4,10 +4,18 @@ import numpy as np
 def gen_lightcurve(W,mmap,sigma_relative):
     """light curve generator
 
+    Args:
+       W: geometric kernel
+       mmap: map vector (binary) or matrix (multiband)
+       sigma_relative: standard deviation of noise
+
+    Returns:
+       light curve
+
     """
     lc=np.dot(W,mmap)
     sigma=np.mean(lc)*sigma_relative
-    noise=np.random.normal(0.0,sigma,len(lc))
+    noise=np.random.normal(0.0,sigma,np.shape(lc))
     lc=lc+noise
     return lc
 

@@ -4,6 +4,17 @@ from jaxsot.io.reflectivity import set_meanalbedo
 def gen_multibandmap(cmap, refsurfaces, sky, vals, bands, onsky=False):
     """multiband map generator
 
+    Args:
+       cmap: classmap
+       refsurfaces: list of target component reflectivities
+       sky: sky reflectivity 
+       vals: list of target component values
+       bands: list of [waves, wavee]
+       onsky: if True, consider sky reflectivity
+
+    Returns:
+       multiband map in healpix, multi-component map in healpix, multi-component reflectivity
+
     """
     nbands = np.shape(bands)[0]
     ncomp = len(refsurfaces)
