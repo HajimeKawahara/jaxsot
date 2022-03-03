@@ -4,8 +4,14 @@ In the near future, direct imaging missions will search for Earth-like planets a
 
 JAXSOT is a successor of [SOT](https://github.com/HajimeKawahara/sot) package, using a autodiff/XLA package JAX.
 Therefore, JAXSOT is compatible with 
-- an optimization package using jaxopt,
-- an HMC-NUTS using PPLs such as NumPyro.
+- an optimization package, jaxopt,
+- an HMC-NUTS in PPLs such as NumPyro.
 The aim of JAXSOT is to unify various methods related to the spin-orbit mapping into one python/JAX framework. It makes easy to develop new algorithms by connecting with techniques developed so far.
 
 
+## Contributors
+
+- Hajime Kawahara (@HajimeKawahara, maintainer)
+- Atsuki Kuwata (@atsuki-kuwata)
+
+Contributions welcome!

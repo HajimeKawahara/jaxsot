@@ -8,7 +8,7 @@ import jaxopt
 import healpy as hp
 import matplotlib.pyplot as plt
 
-nside=8
+nside=16
 mmap=binarymap(nside=nside,show=False)
 inc=0.0
 Thetaeq=np.pi
