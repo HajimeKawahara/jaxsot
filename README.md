@@ -13,5 +13,6 @@ The aim of JAXSOT is to unify various methods related to the spin-orbit mapping 
 
 - Hajime Kawahara (@HajimeKawahara, maintainer)
 - Atsuki Kuwata (@atsuki-kuwata)
+- Masataka Aizawa (@2ndmk2)
 
 Contributions welcome!
