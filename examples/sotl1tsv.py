@@ -21,10 +21,12 @@ N=1024
 obst=np.linspace(0.0,Porb,N)
 Thetav=worb*obst
 Phiv=np.mod(wspin*obst,2*np.pi)
+
 omega=comp_omega(nside)
 WI,WV=comp_weight(nside,zeta,inc,Thetaeq,Thetav,Phiv,omega)
 W=jnp.array(WI*WV)
 lc=gen_lightcurve(W,mmap,0.1)
+
 wtsv, _ = calc_neighbor_weightmatrix(nside)
 
 def objective(params,lamtsv):
