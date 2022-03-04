@@ -3,7 +3,7 @@ import jax.numpy as jnp
 import jaxopt
 import healpy as hp
 import matplotlib.pyplot as plt
-from jaxsot.core.testdata import static_singleband
+from jaxsot.mockdata.testdata import static_singleband
 from jaxsot.core.neighbor import calc_neighbor_weightmatrix
 
 np.random.seed(1)
