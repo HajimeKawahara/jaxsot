@@ -3,15 +3,15 @@ import numpy as np
 import jax.numpy as jnp
 from jax import jit
 
+
 def comp_omega(nside):
-    """compute Omega vertor of a Healpix sphere
+    """compute Omega vertor of a Healpix sphere.
 
     Args:
        nside: Nside of Healpix
 
     Returns:
        Omega vector (ndarray)
-
     """
     omega = []
     npix = hp.nside2npix(nside)
@@ -20,6 +20,7 @@ def comp_omega(nside):
         omega.append([theta, phi])
     return jnp.array(omega)
 
+
 @jit
 def uniteO(inc, Thetaeq):
     # (3)
@@ -27,12 +28,14 @@ def uniteO(inc, Thetaeq):
                    jnp.sin(inc)*jnp.sin(Thetaeq), jnp.cos(inc)])
     return eO
 
+
 @jit
 def uniteS(Thetaeq, Thetav):
     # (3,nsamp)
     eS = jnp.array(
         [jnp.cos(Thetav-Thetaeq), jnp.sin(Thetav-Thetaeq), jnp.zeros(len(Thetav))])
     return eS
+
 
 @jit
 def uniteR(zeta, Phiv, omega):
@@ -52,16 +55,18 @@ def uniteR(zeta, Phiv, omega):
 
     return eR
 
-@jit
-def comp_weight(nside,zeta,inc,Thetaeq,Thetav,Phiv,omega):
-    eO=uniteO(inc,Thetaeq)
-    eS=uniteS(Thetaeq,Thetav)
-    eR=uniteR(zeta,Phiv,omega)
-    WV=jnp.einsum("ijk,i->jk",eR,eO)
-    WV=jnp.where(WV<0.0,0.0,WV)
-    WI=jnp.einsum("ijk,ij->jk",eR,eS)
-    WI=jnp.where(WI<0.0,0.0,WI)
-    return WI,WV
 
-if __name__=="__main__":
-    print("-")
+@jit
+def comp_weight(nside, zeta, inc, Thetaeq, Thetav, Phiv, omega):
+    eO = uniteO(inc, Thetaeq)
+    eS = uniteS(Thetaeq, Thetav)
+    eR = uniteR(zeta, Phiv, omega)
+    WV = jnp.einsum('ijk,i->jk', eR, eO)
+    WV = jnp.where(WV < 0.0, 0.0, WV)
+    WI = jnp.einsum('ijk,ij->jk', eR, eS)
+    WI = jnp.where(WI < 0.0, 0.0, WI)
+    return WI, WV
+
+
+if __name__ == '__main__':
+    print('-')
