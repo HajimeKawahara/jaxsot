@@ -1,8 +1,8 @@
-""" test for io
+""" test for mockdata
 
 """
 
-from jaxsot.io.earth import binarymap
+from jaxsot.mockdata.earth import binarymap
 
 def test_binarymap():
     mmap=binarymap(nside=16,show=False)
