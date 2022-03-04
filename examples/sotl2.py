@@ -8,7 +8,7 @@ from jaxsot.mockdata.testdata import static_singleband
 np.random.seed(1)
 nside=8
 npix=hp.nside2npix(nside)
-lc,W=static_singleband(nside)
+lc,W,mmap_input=static_singleband(nside)
 
 def objective(params,lam):
     residuals=lc - jnp.dot(W,params)

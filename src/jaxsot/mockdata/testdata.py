@@ -26,7 +26,7 @@ def fiducial_geometry():
     obst=np.linspace(0.0,Porb,N)
     Thetav=worb*obst
     Phiv=np.mod(wspin*obst,2*np.pi)
-    return zeta,inc,Thetaeq,Thetav,Phiv,omega
+    return zeta,inc,Thetaeq,Thetav,Phiv
 
 
 def static_singleband(nside):
@@ -36,16 +36,16 @@ def static_singleband(nside):
         nside: nside of Healpix
 
     Returns: 
-        test light curve, weight matrix
+        test light curve, weight matrix, input static map
  
     """
     mmap=binarymap(nside=nside,show=False)
-    zeta,inc,Thetaeq,Thetav,Phiv,omega=fiducial_geometry()
+    zeta,inc,Thetaeq,Thetav,Phiv=fiducial_geometry()
     omega=comp_omega(nside)
     WI,WV=comp_weight(nside,zeta,inc,Thetaeq,Thetav,Phiv,omega)
     W=jnp.array(WI*WV)
     lc=gen_lightcurve(W,mmap,0.1)
-    return lc, W
+    return lc, W, mmap
 
 def dynamic_singleband(nside):
     """generate test data for a single band observation of a rotating geography
@@ -54,14 +54,14 @@ def dynamic_singleband(nside):
         nside: nside of Healpix
 
     Returns: 
-        test light curve, weight matrix
+        test light curve, weight matrix, input dynamic map
  
     """
     mmap=binarymap(nside=nside,show=False)
-    zeta,inc,Thetaeq,Thetav,Phiv,omega=fiducial_geometry()
+    zeta,inc,Thetaeq,Thetav,Phiv=fiducial_geometry()
     WI,WV=comp_weight(nside,zeta,inc,Thetaeq,Thetav,Phiv,omega)
     W=jnp.array(WI*WV)
     M=gendymap_rotation(mmap,obst,rotthetamax=np.pi/2.0)
     lc=gen_dynamic_lightcurve(W,M,0.1)
 
-    return lc, W
+    return lc, W, M

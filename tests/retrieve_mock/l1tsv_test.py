@@ -2,7 +2,7 @@ import numpy as np
 import jax.numpy as jnp
 import jaxopt
 import healpy as hp
-from jaxsot.core.testdata import static_singleband
+from jaxsot.mockdata.testdata import static_singleband
 from jaxsot.core.neighbor import calc_neighbor_weightmatrix
 import pytest
 
@@ -10,7 +10,7 @@ def test_l1tsv():
     np.random.seed(1)
     nside=8
     npix=hp.nside2npix(nside)
-    lc,W=static_singleband(nside)
+    lc,W, mmap_input=static_singleband(nside)
     wtsv, _ = calc_neighbor_weightmatrix(nside)    
     wtsv, _ = calc_neighbor_weightmatrix(nside)
     

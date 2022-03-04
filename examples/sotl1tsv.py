@@ -9,7 +9,7 @@ from jaxsot.core.neighbor import calc_neighbor_weightmatrix
 np.random.seed(1)
 nside=16
 npix=hp.nside2npix(nside)
-lc,W=static_singleband(nside)
+lc,W,mmap_input=static_singleband(nside)
 wtsv, _ = calc_neighbor_weightmatrix(nside)
 
 def objective(params,lamtsv):
