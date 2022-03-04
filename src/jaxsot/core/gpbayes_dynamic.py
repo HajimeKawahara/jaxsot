@@ -40,17 +40,3 @@ def mean_dysotgp(W,KS,KT,alpha,lc,Pid):
     Aast=alpha*KT@(W.T*Xlc).T@KS
     return Aast, Kw
 
-@jit
-def covariance_dysotgp(Kw,Sigmad):
-    """P of the posterior given theta and g
-
-    Args:
-       Kw: weighted kernel (positive semidefinite)
-       Sigmad: the data covariance (positive semidefinite)
-
-    Returns:
-       P = (Sigmad + Kw)^-1
-
-    """
-    P=jnp.linalg.inv(Sigmad+Kw)
-    return P
