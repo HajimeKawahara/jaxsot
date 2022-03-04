@@ -38,6 +38,6 @@ def objective(params,lamtsv):
 pg = jaxopt.ProximalGradient(fun=objective, prox=jaxopt.prox.prox_non_negative_lasso, maxiter=5000)
 res = pg.run(init_params=np.random.normal(0.0,1.0,len(mmap)),  hyperparams_prox=0.01, lamtsv=0.01)
 params, state = res
-hp.mollview(params)
+hp.mollview(params,flip="geo")
 plt.show()
 
