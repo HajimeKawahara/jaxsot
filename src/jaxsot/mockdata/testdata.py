@@ -2,7 +2,7 @@ import numpy as np
 import jax.numpy as jnp
 from jaxsot.core.weight import comp_weight, comp_omega
 from jaxsot.core.lc import gen_lightcurve
-from jaxsot.io.earth import binarymap
+from jaxsot.mockdata.earth import binarymap
 
 def static_singleband(nside):
     """generate test data for a single band observation of a static geography
