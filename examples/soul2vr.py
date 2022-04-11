@@ -35,9 +35,12 @@ def opt_ref(k,Y,W,A,X,lamX):
     Xminus = np.delete(X,obj=k,axis=0)
     XXTinverse=np.linalg.inv(np.dot(Xminus,Xminus.T))
     K=np.eye(Nl) - np.dot(np.dot(Xminus.T,XXTinverse),Xminus)
-    K=K*np.linalg.det(np.dot(Xminus,Xminus.T))*lamX     
-    
-    QP_obj_xk = lambda params: 0.5*jnp.dot(params, jnp.dot((W_x+K),params)) + jnp.dot(bx,params)
+    K=K*np.linalg.det(np.dot(Xminus,Xminus.T))*lamX   
+
+    def QP_obj_xk(params):
+        obj = 0.5*jnp.dot(params, jnp.dot((W_x+K),params)) + jnp.dot(bx,params)
+        return obj/A.shape[0]
+
     pg = jaxopt.ProjectedGradient(fun=QP_obj_xk, projection=jaxopt.projection.projection_non_negative)
     #res = pg.run(init_params=jnp.array(X[k,:]))
     state=pg.init_state(init_params=jnp.array(X[k,:]))
@@ -68,7 +71,10 @@ def opt_map(k,Y,W,A,X,lamA):
     b=-np.dot(np.dot(W.T,Delta),xk)
     T_a=lamA*np.eye(Nj)
 
-    QP_obj_ak = lambda params: 0.5*jnp.dot(params, jnp.dot((W_a+T_a),params)) + jnp.dot(b,params)
+    def QP_obj_ak(params):
+        obj = 0.5*jnp.dot(params, jnp.dot((W_a+T_a),params)) + jnp.dot(b,params)
+        return obj/(A.shape[0])
+
     pg = jaxopt.ProjectedGradient(fun=QP_obj_ak, projection=jaxopt.projection.projection_non_negative)
     #res = pg.run(init_params=jnp.array(A[:,k]))
     state=pg.init_state(init_params=jnp.array(A[:,k]))
@@ -103,7 +109,7 @@ nside=16
 npix=hp.nside2npix(nside)
 omega=comp_omega(nside)
 WI,WV=comp_weight(nside,zeta,inc,Thetaeq,Thetav,Phiv,omega)
-W=jnp.array(WI*WV)
+W=np.array(WI*WV)
 Nk=3
 
 A0=np.random.rand(npix,Nk)
@@ -118,9 +124,9 @@ A=np.copy(A0)
 X=np.copy(X0)
 Y=np.copy(lc)
 
-lamA=10**(1)
+lamA=10**(-1)
 lamX=10**(2)
-maxiter=10
+maxiter=300
 
 for i in range(0,maxiter):
     print('i=',i)
@@ -130,9 +136,8 @@ for i in range(0,maxiter):
         X[k,:]=opt_ref(k,Y,W,A,X,lamX)
         A[:,k]=opt_map(k,Y,W,A,X,lamA)
 
-
 fig=plt.figure(figsize=(10,6))
-ax=fig.add_subplot(211)
+ax=fig.add_subplot(221)
 ax.plot(X.T)
 
 for k in range(Nk):
