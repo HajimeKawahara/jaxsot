@@ -109,7 +109,7 @@ nside=16
 npix=hp.nside2npix(nside)
 omega=comp_omega(nside)
 WI,WV=comp_weight(nside,zeta,inc,Thetaeq,Thetav,Phiv,omega)
-W=np.array(WI*WV)
+W=jnp.array(WI*WV)
 Nk=3
 
 A0=np.random.rand(npix,Nk)
