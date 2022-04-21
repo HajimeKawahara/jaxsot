@@ -10,6 +10,14 @@ import matplotlib.pyplot as plt
 
 np.random.seed(34)
 
+def QP_obj_xk(params,W_x,K,bx):
+    obj = 0.5*jnp.dot(params, jnp.dot((W_x+K),params)) + jnp.dot(bx,params)
+    return obj/A.shape[0]
+
+def QP_obj_ak(params,W_a,T_a,b):
+    obj = 0.5*jnp.dot(params, jnp.dot((W_a+T_a),params)) + jnp.dot(b,params)
+    return obj/(A.shape[0])
+
 def opt_ref(k,Y,W,A,X,lamX):
     """optimization for reflectivity of k-th Component
 
@@ -37,14 +45,10 @@ def opt_ref(k,Y,W,A,X,lamX):
     K=np.eye(Nl) - np.dot(np.dot(Xminus.T,XXTinverse),Xminus)
     K=K*np.linalg.det(np.dot(Xminus,Xminus.T))*lamX   
 
-    def QP_obj_xk(params):
-        obj = 0.5*jnp.dot(params, jnp.dot((W_x+K),params)) + jnp.dot(bx,params)
-        return obj/A.shape[0]
-
     pg = jaxopt.ProjectedGradient(fun=QP_obj_xk, projection=jaxopt.projection.projection_non_negative)
     #res = pg.run(init_params=jnp.array(X[k,:]))
     state=pg.init_state(init_params=jnp.array(X[k,:]))
-    params,state=pg.update(params=jnp.array(X[k,:]),state=state)
+    params,state=pg.update(params=jnp.array(X[k,:]),state=state,W_x=W_x,K=K,bx=bx)
 
     return params
 
@@ -71,14 +75,10 @@ def opt_map(k,Y,W,A,X,lamA):
     b=-np.dot(np.dot(W.T,Delta),xk)
     T_a=lamA*np.eye(Nj)
 
-    def QP_obj_ak(params):
-        obj = 0.5*jnp.dot(params, jnp.dot((W_a+T_a),params)) + jnp.dot(b,params)
-        return obj/(A.shape[0])
-
     pg = jaxopt.ProjectedGradient(fun=QP_obj_ak, projection=jaxopt.projection.projection_non_negative)
     #res = pg.run(init_params=jnp.array(A[:,k]))
     state=pg.init_state(init_params=jnp.array(A[:,k]))
-    params,state=pg.update(params=jnp.array(A[:,k]),state=state)
+    params,state=pg.update(params=jnp.array(A[:,k]),state=state,W_a=W_a,T_a=T_a,b=b)
 
     return params
 
@@ -126,7 +126,7 @@ Y=np.copy(lc)
 
 lamA=10**(-1)
 lamX=10**(2)
-maxiter=300
+maxiter=100
 
 for i in range(0,maxiter):
     print('i=',i)
@@ -143,4 +143,3 @@ ax.plot(X.T)
 for k in range(Nk):
     hp.mollview(A[:,k],flip="geo",sub=(2,3,k+4))
 plt.show()
-
