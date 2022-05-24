@@ -6,10 +6,10 @@ import pytest
 def test_bcd():
 
     np.random.seed(1)
-    Ni=10
-    Nj=20
-    Nk=3
-    Nl=5
+    Ni=3
+    Nj=8
+    Nk=2
+    Nl=4
     W = np.random.rand(Ni,Nj)
     Ain = np.random.rand(Nj,Nk)
     Xin = np.random.rand(Nk,Nl)
@@ -19,7 +19,7 @@ def test_bcd():
     X = np.random.rand(Nk,Nl)
     lamA=10**(-1)
     lamX=10**(2)
-    maxiter=100
+    maxiter=10
 
     for i in tqdm.tqdm(range(0,maxiter)):
         for k in range(0,Nk):
@@ -27,7 +27,7 @@ def test_bcd():
             A[:,k]=opt_map_l2(k,Y,W,A,X,lamA)
 
     Y = np.dot(W, np.dot(A,X))
-    assert np.sum(Y) == pytest.approx(492.2236970510863)
+    assert np.sum(Y) == pytest.approx(20.90292796223254)
 
 if __name__=="__main__":
     test_bcd()
