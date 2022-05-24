@@ -1,6 +1,7 @@
 import numpy as np
 from jaxsot.core.block_coordinate_descent import opt_map_l2, opt_ref_vr
 import tqdm
+import pytest
 
 def test_bcd():
 
@@ -26,8 +27,7 @@ def test_bcd():
             A[:,k]=opt_map_l2(k,Y,W,A,X,lamA)
 
     Y = np.dot(W, np.dot(A,X))
-    refs=492.2236970510863
-    assert np.abs(np.sum(Y)-refs)<1.e-16
+    assert np.sum(Y) == pytest.approx(492.2236970510863)
 
 if __name__=="__main__":
     test_bcd()
