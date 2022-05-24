@@ -3,6 +3,18 @@ import jax.numpy as jnp
 import jaxopt
 
 def QP_objective(params,W,b,shapeA0):
+    """objective function for Quadratic Programming (QP)
+
+    Args:
+        params: parameter vector 
+        W: symmetric matrix
+        b: vector
+        shapeA0: value for normalization
+
+    Returns:
+        normalized value of objective function
+    
+    """
     obj = 0.5*jnp.dot(params, jnp.dot(W,params)) + jnp.dot(b,params)
     return obj/shapeA0
 
