@@ -3,7 +3,7 @@ import jax.numpy as jnp
 import jaxopt
 
 def QP_objective(params,W,b,shapeA0):
-    """objective function for Quadratic Programming (QP)
+    """objective function, Q = 1/2 params^T W params + b^T params, for Quadratic Programming (QP)
 
     Args:
         params: parameter vector 
