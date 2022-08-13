@@ -1,4 +1,5 @@
 import numpy as np
+from jaxsot.core.map import rotating_map
 
 
 def gen_lightcurve(W, mmap, sigma_relative):
@@ -19,6 +20,24 @@ def gen_lightcurve(W, mmap, sigma_relative):
    lc = lc + noise
    return lc
 
+
+def gen_dynamic_lightcurve(W, A, X, obst, sigma_relative):
+    """light curve generator
+    Args:
+        W: geometric kernel; Ni (time) x Nj (pixel)
+        A: multiband map; Nj (pixel) x Nk (components)
+        X: multiband reflectivity; Nk (components) x Nl (bands)
+        obst: observation times
+        sigma_relative: standard deviation of noise
+    Returns:
+        dynamic light curve
+    """
+    rotA = rotating_map(A, obst, rotthetamax = np.pi / 2.0)
+    lc = np.dot(np.sum(W[:, :, np.newaxis] * rotA, axis = 1), X)
+    sigma = np.mean(lc) * sigma_relative
+    noise = np.random.normal(0.0, sigma, np.shape(lc))
+    lc = lc + noise
+    return lc
 
 if __name__ == "__main__":
    from jaxsot.core.weight import comp_weight, comp_omega
