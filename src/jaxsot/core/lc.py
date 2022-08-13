@@ -26,7 +26,7 @@ def gen_dynamic_lightcurve(W, A, X, obst, sigma_relative):
     Args:
         W: geometric kernel; Ni (time) x Nj (pixel)
         A: multiband map; Nj (pixel) x Nk (components)
-        X: multiband reflectivity; Nk (components) x Nj (bands)
+        X: multiband reflectivity; Nk (components) x Nl (bands)
         obst: observation times
         sigma_relative: standard deviation of noise
     Returns:
